@@ -1,5 +1,4 @@
 
-name: PH Virtual PC Deploy
 
 on:
   push:
