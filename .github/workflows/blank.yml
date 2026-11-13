@@ -1,51 +1,109 @@
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pedro Virtual PC</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;height:100vh;overflow:hidden;
+ font-family:Arial,sans-serif;color:white;
+ background:linear-gradient(135deg,#0879bd,#102b72,#111849);
+}
+.desktop{height:calc(100vh - 55px);padding:20px}
+.icon{
+ width:85px;text-align:center;padding:12px;
+ cursor:pointer;border-radius:8px;
+}
+.icon:active{background:#ffffff40}
+.icon span{font-size:35px;display:block}
+.taskbar{
+ position:absolute;bottom:0;height:55px;width:100%;
+ background:#18243ddd;display:flex;
+ justify-content:center;align-items:center;gap:20px;
+ backdrop-filter:blur(15px)
+}
+button{
+ border:0;border-radius:9px;padding:12px;
+ background:#ffffff25;color:white;font-size:16px;
+}
+button:active{background:#ffffff50}
+.start{
+ display:none;position:absolute;bottom:65px;left:50%;
+ transform:translateX(-50%);
+ width:min(90%,350px);height:350px;
+ background:#26334cf2;border-radius:15px;padding:20px;
+}
+.start h2{margin-top:0}
+.window{
+ display:none;position:absolute;top:15%;left:8%;
+ width:84%;height:60%;background:#e8edf5;
+ color:#172033;border-radius:12px;
+ box-shadow:0 8px 30px #0008;
+ padding:18px;
+}
+.window button{background:#2369a8;color:white}
+</style>
+</head>
+<body>
+<div class="desktop">
+ <div class="icon" onclick="openWindow('Meu PC')">
+  <span>🖥️</span>Meu PC
+ </div>
+ <div class="icon" onclick="openWindow('Navegador')">
+  <span>🌐</span>Navegador
+ </div>
+ <div class="icon" onclick="openWindow('Arquivos')">
+  <span>📁</span>Arquivos
+ </div>
+ <div class="icon" onclick="openWindow('Configurações')">
+  <span>⚙️</span>Configurações
+ </div>
+</div>
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+<div class="window" id="window">
+ <button onclick="closeWindow()">✕ Fechar</button>
+ <h2 id="windowTitle"></h2>
+ <p>Bem-vindo ao Pedro Virtual PC!</p>
+ <p>Desktop virtual demonstrativo.</p>
+</div>
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
+<div class="start" id="start">
+ <h2>Iniciar</h2>
+ <p>🖥️ Pedro Virtual PC</p>
+ <p>🌐 Navegador</p>
+ <p>📁 Arquivos</p>
+ <p>⚙️ Configurações</p>
+</div>
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+<div class="taskbar">
+ <button onclick="toggleStart()">⊞</button>
+ <button onclick="openWindow('Navegador')">🌐</button>
+ <button onclick="openWindow('Arquivos')">📁</button>
+ <span id="clock"></span>
+</div>
 
-    steps:
-      - name: Baixar arquivos
-        uses: actions/checkout@v4
-
-      - name: Preparar site
-        run: |
-          mkdir public
-          cp index.html public/index.html
-
-      - name: Configurar Pages
-        uses: actions/configure-pages@v5
-
-      - name: Enviar arquivos
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-
-    needs: build
-
-    steps:
-      - name: Publicar site
-        id: deployment
-        uses: actions/deploy-pages@v4
-        
+<script>
+function toggleStart(){
+ const s=document.getElementById('start');
+ s.style.display=s.style.display==='block'?'none':'block';
+}
+function openWindow(name){
+ document.getElementById('windowTitle').textContent=name;
+ document.getElementById('window').style.display='block';
+ document.getElementById('start').style.display='none';
+}
+function closeWindow(){
+ document.getElementById('window').style.display='none';
+}
+function updateClock(){
+ document.getElementById('clock').textContent=
+ new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+updateClock();
+setInterval(updateClock,1000);
+</script>
+</body>
+</html>
