@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galaxy Virtual PC</title>
+<style>
+body {
+  background:#080b14;
+  color:#00eaff;
+  font-family:Arial;
+  text-align:center;
+  padding:30px;
+}
+.box {
+  background:#111827;
+  border:1px solid #00eaff;
+  border-radius:15px;
+  padding:25px;
+}
+button {
+  background:#00eaff;
+  border:0;
+  padding:12px;
+  border-radius:8px;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>Galaxy Virtual PC</h1>
+<p>Seu computador virtual está iniciando...</p>
+<button onclick="alert('Sistema Galaxy iniciado!')">
+Ligar PC
+</button>
+</div>
+</body>
+</html>
